@@ -70,11 +70,7 @@ document.addEventListener("DOMContentLoaded", () => {
   clearIconsBtn.addEventListener("click", () => {
     uploadedFiles.forEach((file) => URL.revokeObjectURL(file.blobUrl))
     uploadedFiles = []
-    iconsPreview.innerHTML =
-      '<p class="discrete">Les icônes apparaîtront ici.</p>'
-    fileList.innerHTML = ""
-    clearIconsBtn.hidden = true
-    updateCodes()
+    render()
   })
 
   // Settings Changes
@@ -105,21 +101,23 @@ document.addEventListener("DOMContentLoaded", () => {
    */
   function handleFiles(files) {
     const svgFiles = Array.from(files).filter(
-      (file) => file.type === "image/svg+xml" || file.name.endsWith(".svg"),
+      (file) => file.type === "image/svg+xml" || /\.svg$/i.test(file.name),
     )
 
     if (svgFiles.length === 0) return
 
-    // Clear previous discrete message if first time
-    if (uploadedFiles.length === 0) {
-      iconsPreview.innerHTML = ""
-    }
+    let hasNewFiles = false
 
     svgFiles.forEach((file) => {
+      // Create a unique name/slug
       const name = file.name
-        .replace(".svg", "")
+        .replace(/\.svg$/i, "")
         .toLowerCase()
         .replace(/[^a-z0-9]/g, "-")
+
+      // Strict duplicate check
+      if (uploadedFiles.some((f) => f.name === name)) return
+
       const blobUrl = URL.createObjectURL(file)
 
       uploadedFiles.push({
@@ -127,14 +125,39 @@ document.addEventListener("DOMContentLoaded", () => {
         filename: file.name,
         blobUrl: blobUrl,
       })
-
-      addIconToPreview(name, blobUrl)
-      addToFileList(file.name)
+      hasNewFiles = true
     })
 
+    if (hasNewFiles) {
+      render()
+    }
+    fileInput.value = ""
+  }
+
+  /**
+   * Centralized render function to keep UI and codes in sync with state
+   */
+  function render() {
+    // 1. Update Preview
+    iconsPreview.innerHTML = ""
+    if (uploadedFiles.length === 0) {
+      iconsPreview.innerHTML =
+        '<p class="discrete">Les icônes apparaîtront ici.</p>'
+    } else {
+      uploadedFiles.forEach((file) => {
+        addIconToPreview(file.name, file.blobUrl)
+      })
+    }
+
+    // 2. Update File List
+    fileList.innerHTML = ""
+    uploadedFiles.forEach((file) => {
+      addToFileList(file.filename)
+    })
+
+    // 3. Update Codes & Misc
     updateCodes()
     clearIconsBtn.hidden = uploadedFiles.length === 0
-    fileInput.value = ""
   }
 
   /**
