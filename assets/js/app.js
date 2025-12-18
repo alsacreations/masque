@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const iconsPreview = document.getElementById("icons-preview")
   const generatedCss = document.getElementById("generated-css")
   const generatedHtml = document.getElementById("generated-html")
+  const fileList = document.getElementById("file-list")
 
   // Settings
   const iconSizeInput = document.getElementById("icon-size")
@@ -33,7 +34,18 @@ document.addEventListener("DOMContentLoaded", () => {
   // --- Event Listeners ---
 
   // File Upload
-  dropzone.addEventListener("click", () => fileInput.click())
+  dropzone.addEventListener("click", (e) => {
+    // Prevent double triggering if clicking label or input
+    if (e.target.closest("label") || e.target === fileInput) return
+    fileInput.click()
+  })
+
+  dropzone.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault()
+      fileInput.click()
+    }
+  })
 
   dropzone.addEventListener("dragover", (e) => {
     e.preventDefault()
@@ -60,6 +72,8 @@ document.addEventListener("DOMContentLoaded", () => {
     uploadedFiles = []
     iconsPreview.innerHTML =
       '<p class="discrete">Les icônes apparaîtront ici.</p>'
+    fileList.innerHTML = ""
+    clearIconsBtn.hidden = true
     updateCodes()
   })
 
@@ -115,9 +129,25 @@ document.addEventListener("DOMContentLoaded", () => {
       })
 
       addIconToPreview(name, blobUrl)
+      addToFileList(file.name)
     })
 
     updateCodes()
+    clearIconsBtn.hidden = uploadedFiles.length === 0
+    fileInput.value = ""
+  }
+
+  /**
+   * Add a filename to the file list in Step 1
+   */
+  function addToFileList(filename) {
+    const item = document.createElement("div")
+    item.className = "file-item"
+    item.innerHTML = `
+            <span class="file-item-icon">✓</span>
+            <span class="file-item-name">${filename}</span>
+        `
+    fileList.appendChild(item)
   }
 
   /**
@@ -148,7 +178,7 @@ document.addEventListener("DOMContentLoaded", () => {
    * Update individual preview styles based on settings
    */
   function updatePreviewStyles() {
-    const size = `${iconSizeInput.value}em`
+    const size = iconSizeInput.value
     const color = iconColorInput.value
     const colorHover = iconColorHoverInput.value
     const colorDark = iconColorDarkInput.value
@@ -166,14 +196,14 @@ document.addEventListener("DOMContentLoaded", () => {
    * Generate and display the CSS and HTML codes
    */
   function updateCodes() {
-    const size = `${iconSizeInput.value}em`
+    const size = iconSizeInput.value
     const color = iconColorInput.value
     const colorHover = iconColorHoverInput.value
     const colorDark = iconColorDarkInput.value
 
     // CSS
     let css = `/* Masque Base Style */
-.mask-icon {
+[class*="mask-icon"] {
   --mask-icon-size: ${size};
   --mask-icon-color: ${color};
   --mask-icon-color-hover: ${colorHover};
@@ -211,7 +241,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // HTML
     let html = ""
     uploadedFiles.forEach((file) => {
-      html += `<span class="mask-icon mask-icon-${file.name}" aria-hidden="true"></span>\n`
+      html += `<span class="mask-icon-${file.name}"></span>\n`
     })
 
     generatedHtml.textContent =

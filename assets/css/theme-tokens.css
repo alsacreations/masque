@@ -110,7 +110,7 @@
   );
 
   /* Tokens complémentaires */
-  --form-control-background: var(--color-gray-200);
+  --form-control-background: var(--color-gray-50);
   --on-form-control: var(--color-gray-900);
   --form-control-spacing: var(--spacing-12) var(--spacing-16);
   --form-control-border-width: 1px;

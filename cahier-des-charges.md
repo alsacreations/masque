@@ -27,10 +27,10 @@ Le code HTML est le suivant :
 
 ```html
 <span
-  class="mask-icon mask-icon-star"
+  class="mask-icon-star"
   aria-hidden="true"></span>
 <span
-  class="mask-icon mask-icon-cart"
+  class="mask-icon-cart"
   aria-hidden="true"></span>
 ```
 
@@ -38,7 +38,7 @@ Le code CSS est le suivant :
 
 ```css
 /* Masque */
-.mask-icon {
+[class*="mask-icon"] {
   --mask-icon-size: 1em;
   --mask-icon-color: currentColor;
   --mask-icon-color-hover: currentColor;
