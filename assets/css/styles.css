@@ -65,6 +65,10 @@ h1 {
   background-clip: text;
   color: transparent;
   margin-bottom: var(--spacing-m);
+
+  & > span {
+    color: var(--color-brand-500);
+  }
 }
 
 h2 {
@@ -322,4 +326,34 @@ a:hover {
   &:focus-visible {
     color: var(--color-white);
   }
+}
+
+/* Masques */
+/* Masque Base Style */
+[class*="mask-icon"] {
+  --mask-icon-size: 1em;
+  --mask-icon-color: currentColor;
+  --mask-icon-color-hover: currentColor;
+  --mask-icon-color-dark: currentColor;
+
+  display: inline-grid;
+  width: var(--mask-icon-size);
+  height: var(--mask-icon-size);
+  background-color: var(--mask-icon-color);
+  mask: var(--mask-icon-svg) no-repeat center;
+  mask-size: contain;
+
+  [data-theme="dark"] & {
+    background-color: var(--mask-icon-color-dark);
+  }
+
+  &:hover,
+  &:focus-visible {
+    background-color: var(--mask-icon-color-hover);
+  }
+}
+
+/* Icons */
+.mask-icon-mask {
+  --mask-icon-svg: url("../img/mask.svg");
 }
