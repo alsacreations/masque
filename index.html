@@ -13,7 +13,7 @@
       href="img/favicon.svg" />
     <meta
       name="description"
-      content="Rassemble des fichiers SVG en sprite et les affiche via CSS mask" />
+      content="Masque est un outil qui permet de créer des icônes monochromes à partir de fichiers SVG externes." />
     <title>Masque</title>
     <link
       rel="stylesheet"
@@ -22,11 +22,146 @@
   <body data-layout="boxed">
     <header>
       <h1>Masque 🎭</h1>
-      <p>Rassemble des fichiers SVG en sprite et les affiche via CSS mask.</p>
+      <p>Crée des icônes monochromes à partir de fichiers SVG externes.</p>
     </header>
     <main
       data-layout="stack"
-      data-gap="xl"></main>
+      data-gap="xl">
+      <section
+        id="upload-section"
+        data-layout="stack"
+        data-gap="m">
+        <h2>1. Télécharger vos fichiers SVG</h2>
+        <div
+          id="dropzone"
+          class="dropzone"
+          data-layout="stack"
+          data-gap="s">
+          <p>Glissez-déposez vos fichiers SVG ici ou</p>
+          <label
+            for="file-input"
+            class="btn btn-primary"
+            >Parcourir les fichiers</label
+          >
+          <input
+            type="file"
+            id="file-input"
+            multiple
+            accept=".svg"
+            hidden />
+        </div>
+      </section>
+
+      <section
+        id="settings-section"
+        data-layout="stack"
+        data-gap="m">
+        <h2>2. Personnaliser les icônes</h2>
+        <div
+          class="settings-grid"
+          data-layout="grid"
+          data-gap="m">
+          <div
+            data-layout="stack"
+            data-gap="xs">
+            <label for="icon-size">Taille (em)</label>
+            <input
+              type="number"
+              id="icon-size"
+              value="1"
+              step="0.1"
+              min="0.1" />
+          </div>
+          <div
+            data-layout="stack"
+            data-gap="xs">
+            <label for="icon-color">Couleur</label>
+            <input
+              type="color"
+              id="icon-color"
+              value="#000000" />
+          </div>
+          <div
+            data-layout="stack"
+            data-gap="xs">
+            <label for="icon-color-hover">Couleur (hover)</label>
+            <input
+              type="color"
+              id="icon-color-hover"
+              value="#555555" />
+          </div>
+          <div
+            data-layout="stack"
+            data-gap="xs">
+            <label for="icon-color-dark">Couleur (dark mode)</label>
+            <input
+              type="color"
+              id="icon-color-dark"
+              value="#ffffff" />
+          </div>
+        </div>
+      </section>
+
+      <section
+        id="preview-section"
+        data-layout="stack"
+        data-gap="m">
+        <header
+          data-layout="cluster"
+          data-align="center"
+          data-justify="between">
+          <h2>3. Démonstration</h2>
+          <button
+            id="clear-icons"
+            class="btn btn-s">
+            Tout effacer
+          </button>
+        </header>
+        <div
+          id="icons-preview"
+          class="icons-preview"
+          data-layout="autogrid"
+          data-gap="m">
+          <p class="discrete">Les icônes apparaîtront ici.</p>
+        </div>
+      </section>
+
+      <section
+        id="result-section"
+        data-layout="stack"
+        data-gap="m">
+        <h2>4. Code généré</h2>
+        <div
+          data-layout="stack"
+          data-gap="s">
+          <h3>Code CSS</h3>
+          <div class="result-code-container">
+            <button
+              id="copy-css"
+              class="btn-copy">
+              Copier
+            </button>
+            <pre><code id="generated-css">/* Le code CSS apparaîtra ici */</code></pre>
+          </div>
+        </div>
+        <div
+          data-layout="stack"
+          data-gap="s">
+          <h3>Code HTML</h3>
+          <div class="result-code-container">
+            <button
+              id="copy-html"
+              class="btn-copy">
+              Copier
+            </button>
+            <pre><code id="generated-html">&lt;!-- Le code HTML apparaîtra ici --&gt;</code></pre>
+          </div>
+        </div>
+      </section>
+    </main>
+    <script
+      type="module"
+      src="assets/js/app.js"></script>
     <footer
       class="footer"
       role="contentinfo">
