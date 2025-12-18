@@ -16,6 +16,9 @@
     <link
       rel="stylesheet"
       href="assets/css/app.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" />
   </head>
   <body data-layout="boxed">
     <header>
@@ -165,7 +168,8 @@
               class="btn-copy">
               Copier
             </button>
-            <pre><code id="generated-css">/* Le code CSS apparaîtra ici */</code></pre>
+            <pre
+              class="language-css"><code id="generated-css" class="language-css">/* Le code CSS apparaîtra ici */</code></pre>
           </div>
         </div>
         <div
@@ -178,11 +182,15 @@
               class="btn-copy">
               Copier
             </button>
-            <pre><code id="generated-html">&lt;!-- Le code HTML apparaîtra ici --&gt;</code></pre>
+            <pre
+              class="language-html"><code id="generated-html" class="language-html">&lt;!-- Le code HTML apparaîtra ici --&gt;</code></pre>
           </div>
         </div>
       </section>
     </main>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-css.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
     <script
       type="module"
       src="assets/js/app.js"></script>

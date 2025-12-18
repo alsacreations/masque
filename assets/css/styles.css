@@ -163,13 +163,26 @@ a:hover {
   top: 0;
 }
 
-.result-code-container pre {
-  margin: 0;
-  padding: var(--spacing-m);
-  background-color: var(--layer-1);
-  border-radius: var(--radius-8);
+.result-code-container pre[class*="language-"] {
+  margin: 0 !important;
+  padding: 0 !important;
+  background-color: #2d2d2d !important;
+  border-radius: var(--radius-16);
   overflow-x: auto;
   font-size: var(--text-s);
+  border: 1px solid var(--border-light);
+}
+
+.result-code-container pre code[class*="language-"] {
+  padding: var(--spacing-l) var(--spacing-m) var(--spacing-m) !important;
+  display: block;
+  background: none !important; /* Prism puts it on pre, so we clear it on code */
+  text-shadow: none !important;
+}
+
+/* Ensure language classes don't break our font */
+.result-code-container code {
+  font-family: var(--font-mono, monospace) !important;
 }
 
 /* Dropzone */

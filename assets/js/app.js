@@ -269,6 +269,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     generatedHtml.textContent =
       html || "<!-- Téléchargez des fichiers SVG pour générer le code HTML -->"
+
+    // Prism highlighting
+    if (window.Prism) {
+      window.Prism.highlightElement(generatedCss)
+      window.Prism.highlightElement(generatedHtml)
+    }
   }
 
   /**
