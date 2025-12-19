@@ -26,19 +26,14 @@ Cette technique utilise la propriété CSS `mask` pour appliquer une couleur à 
 Le code HTML est le suivant :
 
 ```html
-<span
-  class="mask-icon-star"
-  aria-hidden="true"></span>
-<span
-  class="mask-icon-cart"
-  aria-hidden="true"></span>
+<span data-icon="star"></span> <span data-icon="cart"></span>
 ```
 
 Le code CSS est le suivant :
 
 ```css
 /* Masque */
-[class*="mask-icon"] {
+[data-icon] {
   --mask-icon-size: 1em;
   --mask-icon-color: currentColor;
   --mask-icon-color-hover: currentColor;
@@ -62,11 +57,11 @@ Le code CSS est le suivant :
 }
 
 /* Icônes */
-.mask-icon-star {
+[data-icon="star"] {
   --mask-icon-svg: url("icons/star.svg");
 }
 
-.mask-icon-cart {
+[data-icon="cart"] {
   --mask-icon-svg: url("icons/cart.svg");
 }
 ```

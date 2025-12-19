@@ -269,30 +269,6 @@ a:hover {
   text-align: center;
 }
 
-/* Masque Icon Base Style */
-.mask-icon {
-  --mask-icon-size: 1em;
-  --mask-icon-color: currentColor;
-  --mask-icon-color-hover: currentColor;
-  --mask-icon-color-dark: currentColor;
-
-  display: inline-grid;
-  width: var(--mask-icon-size);
-  height: var(--mask-icon-size);
-  background-color: var(--mask-icon-color);
-  mask: var(--mask-icon-svg) no-repeat center;
-  mask-size: contain;
-
-  [data-theme="dark"] & {
-    background-color: var(--mask-icon-color-dark);
-  }
-
-  &:hover,
-  &:focus-visible {
-    background-color: var(--mask-icon-color-hover);
-  }
-}
-
 /* Footer */
 .footer {
   padding-block: var(--spacing-xl) var(--spacing-l);
@@ -343,7 +319,7 @@ a:hover {
 
 /* Masques */
 /* Masque Base Style */
-[class*="mask-icon"] {
+[data-icon] {
   --mask-icon-size: 1em;
   --mask-icon-color: currentColor;
   --mask-icon-color-hover: currentColor;
@@ -367,6 +343,6 @@ a:hover {
 }
 
 /* Icons */
-.mask-icon-mask {
+[data-icon="mask"] {
   --mask-icon-svg: url("../img/mask.svg");
 }

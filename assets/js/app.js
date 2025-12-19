@@ -181,8 +181,7 @@ document.addEventListener("DOMContentLoaded", () => {
     item.className = "preview-item"
 
     const icon = document.createElement("span")
-    icon.className = `mask-icon mask-icon-${name}`
-    icon.setAttribute("aria-hidden", "true")
+    icon.setAttribute("data-icon", name)
     // We apply the specific mask locally via style attribute for the preview
     icon.style.setProperty("--mask-icon-svg", `url(${blobUrl})`)
 
@@ -206,7 +205,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const colorHover = iconColorHoverInput.value
     const colorDark = iconColorDarkInput.value
 
-    const icons = iconsPreview.querySelectorAll(".mask-icon")
+    const icons = iconsPreview.querySelectorAll("[data-icon]")
     icons.forEach((icon) => {
       icon.style.setProperty("--mask-icon-size", size)
       icon.style.setProperty("--mask-icon-color", color)
@@ -226,7 +225,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // CSS
     let css = `/* Masque Base Style */
-[class*="mask-icon"] {
+[data-icon] {
   --mask-icon-size: ${size};
   --mask-icon-color: ${color};
   --mask-icon-color-hover: ${colorHover};
@@ -253,7 +252,7 @@ document.addEventListener("DOMContentLoaded", () => {
 `
 
     uploadedFiles.forEach((file) => {
-      css += `.mask-icon-${file.name} {
+      css += `[data-icon="${file.name}"] {
   --mask-icon-svg: url("icons/${file.filename}");
 }
 `
@@ -264,7 +263,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // HTML
     let html = ""
     uploadedFiles.forEach((file) => {
-      html += `<span class="mask-icon-${file.name}"></span>\n`
+      html += `<span data-icon="${file.name}"></span>\n`
     })
 
     generatedHtml.textContent =

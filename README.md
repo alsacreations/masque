@@ -27,9 +27,10 @@ Pour en savoir plus sur cette technique, consultez l'excellent tutoriel sur Alsa
 ### Exemple de rendu CSS
 
 ```css
-[class*="mask-icon"] {
+[data-icon] {
   --mask-icon-size: 1em;
   --mask-icon-color: currentColor;
+
   display: inline-grid;
   width: var(--mask-icon-size);
   height: var(--mask-icon-size);
@@ -42,9 +43,7 @@ Pour en savoir plus sur cette technique, consultez l'excellent tutoriel sur Alsa
 ### Exemple de rendu HTML
 
 ```html
-<span
-  class="mask-icon-star"
-  aria-hidden="true"></span>
+<span data-icon="star"></span>
 ```
 
 ---
