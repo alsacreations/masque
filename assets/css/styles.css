@@ -5,8 +5,10 @@
 
 /* Modificateurs de Layouts */
 [data-layout*="boxed"] {
-  --boxed-max: 96rem; /* 1536px */
+  --boxed-max: 96rem;
+  /* 1536px */
 }
+
 [data-layout*="autogrid"] {
   justify-items: center;
 }
@@ -56,17 +58,15 @@ h1 {
   font-size: var(--text-4xl);
   font-weight: var(--font-weight-extrabold);
   letter-spacing: -0.02em;
-  background: linear-gradient(
-    135deg,
-    var(--color-brand-100),
-    var(--color-brand-700)
-  );
+  background: linear-gradient(135deg,
+      var(--color-brand-100),
+      var(--color-brand-700));
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
   margin-bottom: var(--spacing-m);
 
-  & > span {
+  &>span {
     color: var(--color-brand-500);
   }
 }
@@ -95,6 +95,10 @@ h3 {
 header {
   padding-block: var(--spacing-xl);
   text-align: center;
+}
+
+header [data-icon] {
+  vertical-align: middle;
 }
 
 nav ul {
@@ -148,6 +152,7 @@ a:hover {
 .result-code-container {
   position: relative;
 }
+
 .btn-copy,
 .btn-clear {
   position: absolute;
@@ -176,7 +181,8 @@ a:hover {
 .result-code-container pre code[class*="language-"] {
   padding: var(--spacing-l) var(--spacing-m) var(--spacing-m) !important;
   display: block;
-  background: none !important; /* Prism puts it on pre, so we clear it on code */
+  background: none !important;
+  /* Prism puts it on pre, so we clear it on code */
   text-shadow: none !important;
 }
 
@@ -273,6 +279,7 @@ a:hover {
 .footer {
   padding-block: var(--spacing-xl) var(--spacing-l);
 }
+
 .logo-alsacreations-pepins-inner {
   fill: var(--surface);
 }
@@ -294,7 +301,8 @@ a:hover {
   margin: auto;
   color: var(--accent);
 
-  @media (width >= 48rem) {
+  @media (width >=48rem) {
+
     &:focus,
     &:hover {
       animation: spaceboots 2s linear infinite alternate;
@@ -304,9 +312,7 @@ a:hover {
 
 .btn-github {
   --button-background-color: oklch(51.33% 0.18 256.37);
-  --button-background-color-hover: oklch(
-    from oklch(51.33% 0.18 256.37) calc(l * 0.9) c h
-  );
+  --button-background-color-hover: oklch(from oklch(51.33% 0.18 256.37) calc(l * 0.9) c h);
   --button-border-color: transparent;
   --button-text-color: var(--color-white);
   color: var(--color-white);
@@ -325,20 +331,72 @@ a:hover {
   --mask-icon-color-hover: currentColor;
   --mask-icon-color-dark: currentColor;
 
+  /* Gradient tokens (customisable) */
+  --mask-icon-grad-1: var(--primary);
+  --mask-icon-grad-2: rgb(255, 0, 162);
+  --mask-icon-grad-3: var(--color-brand-700);
+
+  --mask-icon-grad-hover-1: var(--accent);
+  --mask-icon-grad-hover-2: var(--primary);
+
+  --mask-icon-grad-dark-1: var(--color-brand-700);
+  --mask-icon-grad-dark-2: var(--primary);
+
+  /* Assembled gradients */
+  --mask-icon-gradient: linear-gradient(90deg, var(--mask-icon-grad-1), var(--mask-icon-grad-2), var(--mask-icon-grad-3));
+  --mask-icon-gradient-hover: linear-gradient(90deg, var(--mask-icon-grad-hover-1), var(--mask-icon-grad-hover-2));
+  --mask-icon-gradient-dark: linear-gradient(90deg, var(--mask-icon-grad-dark-1), var(--mask-icon-grad-dark-2));
+
   display: inline-grid;
   width: var(--mask-icon-size);
   height: var(--mask-icon-size);
+
+  /* Use gradient if present, otherwise fallback to solid color */
   background-color: var(--mask-icon-color);
+  background-image: var(--mask-icon-gradient);
+  background-size: 200% 200%;
+  background-repeat: no-repeat;
+  transition: background 400ms linear, transform var(--transition-duration);
+
   mask: var(--mask-icon-svg) no-repeat center;
   mask-size: contain;
+  -webkit-mask: var(--mask-icon-svg) no-repeat center;
+  -webkit-mask-size: contain;
+
+  /* Animation */
+  animation: mask-gradient-shift 6s linear infinite;
+  will-change: background-position;
+
+  /* Respect reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
 
   [data-theme="dark"] & {
+    background-image: var(--mask-icon-gradient-dark);
     background-color: var(--mask-icon-color-dark);
   }
 
   &:hover,
   &:focus-visible {
+    background-image: var(--mask-icon-gradient-hover);
     background-color: var(--mask-icon-color-hover);
+    transform: translateY(-2px);
+  }
+}
+
+/* Animation keyframes */
+@keyframes mask-gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
   }
 }
 
