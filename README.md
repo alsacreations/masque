@@ -18,11 +18,13 @@ Pour en savoir plus sur cette technique, consultez l'excellent tutoriel sur Alsa
 
 ## Comment ça marche ?
 
-1. **Importez vos fichiers SVG** : Faites glisser vos icônes SVG dans l'outil.
-2. **Configurez** : Ajustez la taille initiale si nécessaire.
-3. **Récupérez le code** : L'outil génère automatiquement :
-   - Le **CSS** contenant les variables et la logique de masque.
-   - Le **HTML** pour afficher vos icônes.
+1. **Importer** : déposez vos fichiers SVG n'importe où sur la page, ou cliquez sur la zone d'import. Les fichiers restent en local, rien n'est envoyé sur un serveur.
+2. **Icônes** : chaque icône apparaît dans l'aperçu. Son nom (issu du nom de fichier) devient sa valeur `data-icon` et reste modifiable. L'aperçu peut s'afficher sur fond clair ou sombre.
+3. **Personnaliser** : réglez la taille, la couleur, la couleur au survol et la couleur en mode sombre, à la main, via le sélecteur de couleur ou avec les valeurs prédéfinies.
+4. **En contexte** : visualisez vos icônes dans des boutons, un lien et une liste.
+5. **Code** : copiez le **CSS** (variables et logique de masque) ou le **HTML** pour afficher vos icônes.
+
+Des icônes d'exemple sont chargées au démarrage. Le bouton « Tout effacer » permet de repartir de zéro.
 
 ### Exemple de rendu CSS
 
@@ -30,6 +32,8 @@ Pour en savoir plus sur cette technique, consultez l'excellent tutoriel sur Alsa
 [data-icon] {
   --mask-icon-size: 1em;
   --mask-icon-color: currentColor;
+  --mask-icon-color-hover: currentColor;
+  --mask-icon-color-dark: currentColor;
 
   display: inline-grid;
   width: var(--mask-icon-size);
@@ -37,6 +41,19 @@ Pour en savoir plus sur cette technique, consultez l'excellent tutoriel sur Alsa
   background-color: var(--mask-icon-color);
   mask: var(--mask-icon-svg) no-repeat center;
   mask-size: contain;
+
+  [data-theme="dark"] & {
+    background-color: var(--mask-icon-color-dark);
+  }
+
+  &:hover,
+  &:focus-visible {
+    background-color: var(--mask-icon-color-hover);
+  }
+}
+
+[data-icon="star"] {
+  --mask-icon-svg: url("icons/star.svg");
 }
 ```
 
@@ -45,6 +62,19 @@ Pour en savoir plus sur cette technique, consultez l'excellent tutoriel sur Alsa
 ```html
 <span data-icon="star"></span>
 ```
+
+## Structure du projet
+
+Site statique, sans étape de build : il suffit de servir le dossier (par exemple avec `python3 -m http.server`).
+
+- `index.html` : la page de l'outil.
+- `assets/css/app.css` : point d'entrée CSS, organisé en `@layer` (`vendor`, `config`, `base`, `components`).
+  - `reset.css` : reset CSS Alsacréations.
+  - `ds.css` : design system « Modernist » (tokens de couleurs, typographie, espacements, et composants boutons, champs, contrôles segmentés, badges).
+  - `styles.css` : mise en page et composants propres à Masque.
+- `assets/js/app.js` : logique de l'outil (import, aperçu, réglages, génération du code).
+- `assets/fonts/` : police [Archivo](https://fonts.google.com/specimen/Archivo) en version variable, hébergée localement.
+- Dépendance externe (CDN) : [Prism](https://prismjs.com/) pour la coloration syntaxique.
 
 ---
 
