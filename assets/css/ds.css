@@ -13,12 +13,13 @@
 }
 
 :root {
+  /* Couleurs : primitives */
   --color-bg: #f3f2f2;
   --color-surface: #eae9e9;
   --color-text: #201e1d;
-  --color-accent: #ec3013;
+  --color-accent: #c4260d; /* 5,18:1 sur --color-bg (AA) */
   --color-accent-2: #e15b47;
-  --color-divider: color-mix(in srgb, #201e1d 40%, transparent);
+  --color-magenta: rgb(255 0 162);
 
   /* Rampes tonales (OKLCH, même échelle de luminosité) */
   --color-neutral-100: #f8f4f4;
@@ -41,19 +42,71 @@
   --color-accent-800: #7c1405;
   --color-accent-900: #4d170e;
 
+  /* Couleurs : tokens dérivés */
+  --color-text-muted: color-mix(in srgb, var(--color-text) 70%, transparent); /* 5,79:1 */
+  --color-divider: color-mix(in srgb, var(--color-text) 40%, transparent);
+  /* Bordure des contrôles de formulaire : contraste ≥ 3:1 (WCAG 1.4.11) */
+  --color-border: color-mix(in srgb, var(--color-text) 55%, transparent);
+  --color-border-hover: color-mix(in srgb, var(--color-text) 75%, transparent);
+  --color-tint-hover: color-mix(in srgb, var(--color-text) 7%, transparent);
+  --color-tint-active: color-mix(in srgb, var(--color-text) 14%, transparent);
+  --color-accent-tint-hover: color-mix(in srgb, var(--color-accent) 10%, transparent);
+  --color-accent-tint-active: color-mix(in srgb, var(--color-accent) 18%, transparent);
+  --color-selection: color-mix(in srgb, var(--color-accent) 30%, transparent);
+
+  /* Familles et graisses */
   --font-heading: "Archivo", system-ui, sans-serif;
-  --font-heading-weight: 800;
   --font-body: "Archivo", system-ui, sans-serif;
   --font-mono: ui-monospace, sfmono-regular, monospace;
 
-  --space-1: 4px;
-  --space-2: 8px;
-  --space-3: 12px;
-  --space-4: 16px;
-  --space-6: 24px;
-  --space-8: 32px;
+  --font-weight-regular: 400;
+  --font-weight-semibold: 600;
+  --font-weight-extrabold: 800;
 
-  --radius-md: 0;
+  /* Tailles de texte fluides (360px → 1280px) */
+  --text-xs: clamp(0.6875rem, 0.663rem + 0.1087vw, 0.75rem);
+  --text-s: clamp(0.8125rem, 0.788rem + 0.1087vw, 0.875rem);
+  --text-m: clamp(0.875rem, 0.8505rem + 0.1087vw, 0.9375rem);
+  --text-l: clamp(1rem, 0.9266rem + 0.3261vw, 1.1875rem);
+  --text-xl: clamp(1.5rem, 1.3043rem + 0.8696vw, 2rem);
+  --text-2xl: clamp(2rem, 1.7065rem + 1.3043vw, 2.75rem);
+
+  --line-height-s: 1;
+  --line-height-m: 1.2;
+  --line-height-l: 1.6;
+
+  --letter-spacing-tighter: -0.04em;
+  --letter-spacing-tight: -0.015em;
+  --letter-spacing-wide: 0.02em;
+  --letter-spacing-wider: 0.08em;
+
+  /* Espacements */
+  --spacing-3xs: 0.125rem;
+  --spacing-2xs: 0.25rem;
+  --spacing-xs: 0.375rem;
+  --spacing-s: 0.5rem;
+  --spacing-m: 0.75rem;
+  --spacing-l: 1rem;
+  --spacing-xl: 1.5rem;
+  --spacing-2xl: 2rem;
+
+  /* Dimensions */
+  --size-icon-s: 1rem;
+  --size-icon-m: 1.125rem;
+  --size-icon-l: 1.75rem;
+  --size-icon-xl: 3rem;
+  --size-control-s: 1.375rem;
+  --size-control-m: 2.25rem;
+
+  /* Bordures et arrondis */
+  --border-width-s: 1px;
+  --border-width-m: 2px;
+  --radius-m: 0;
+
+  /* Animations et états */
+  --duration-fast: 0.2s;
+  --duration-loop: 6s;
+  --opacity-disabled: 0.45;
 }
 
 /* Éléments de base */
@@ -62,26 +115,26 @@ body {
   background: var(--color-bg);
   color: var(--color-text);
   font-family: var(--font-body);
-  font-size: 15px;
-  font-weight: 400;
-  line-height: 1.55;
+  font-size: var(--text-m);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-l);
 }
 
 :where(h1, h2, h3, h4, h5, h6) {
-  margin: 0 0 var(--space-2);
+  margin: 0 0 var(--spacing-s);
   font-family: var(--font-heading);
-  font-weight: var(--font-heading-weight);
-  line-height: 1.12;
-  letter-spacing: -0.015em;
+  font-weight: var(--font-weight-extrabold);
+  line-height: var(--line-height-m);
+  letter-spacing: var(--letter-spacing-tight);
 }
 
 p {
-  margin: 0 0 var(--space-3);
+  margin: 0 0 var(--spacing-m);
 }
 
 a {
   color: var(--color-accent-700);
-  text-underline-offset: 3px;
+  text-underline-offset: var(--spacing-2xs);
 
   &:hover {
     color: var(--color-accent);
@@ -94,7 +147,8 @@ img {
 }
 
 .text-muted {
-  color: color-mix(in srgb, var(--color-text) 55%, transparent);
+  color: var(--color-text-muted);
+  font-size: var(--text-s);
 }
 
 :focus {
@@ -102,12 +156,12 @@ img {
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-accent);
-  outline-offset: 2px;
+  outline: var(--border-width-m) solid var(--color-accent);
+  outline-offset: var(--border-width-m);
 }
 
 ::selection {
-  background: color-mix(in srgb, var(--color-accent) 30%, transparent);
+  background: var(--color-selection);
 }
 
 /* Boutons */
@@ -115,21 +169,21 @@ img {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  padding: var(--space-2) calc(var(--space-3) * 1.2);
-  border: 1px solid transparent;
-  border-radius: var(--radius-md);
+  gap: var(--spacing-xs);
+  padding: var(--spacing-s) var(--spacing-m);
+  border: var(--border-width-s) solid transparent;
+  border-radius: var(--radius-m);
   background: transparent;
   color: var(--color-text);
   font-family: var(--font-heading);
-  font-size: 14px;
-  font-weight: var(--font-heading-weight);
-  line-height: 1.2;
+  font-size: var(--text-s);
+  font-weight: var(--font-weight-extrabold);
+  line-height: var(--line-height-m);
   text-decoration: none;
   cursor: pointer;
 
   &:disabled {
-    opacity: 0.45;
+    opacity: var(--opacity-disabled);
     cursor: not-allowed;
   }
 }
@@ -139,12 +193,12 @@ img {
   color: var(--color-bg);
 
   &:hover {
-    background: var(--color-accent-600);
+    background: var(--color-accent-700);
     color: var(--color-bg);
   }
 
   &:active {
-    background: var(--color-accent-700);
+    background: var(--color-accent-800);
   }
 }
 
@@ -152,50 +206,52 @@ img {
   border-color: var(--color-divider);
 
   &:hover {
-    background: color-mix(in srgb, var(--color-text) 7%, transparent);
+    background: var(--color-tint-hover);
     color: var(--color-text);
   }
 
   &:active {
-    background: color-mix(in srgb, var(--color-text) 14%, transparent);
+    background: var(--color-tint-active);
   }
 }
 
 .btn-ghost {
-  padding-inline: var(--space-1);
+  padding-inline: var(--spacing-2xs);
   color: var(--color-accent);
 
   &:hover {
-    background: color-mix(in srgb, var(--color-accent) 10%, transparent);
+    background: var(--color-accent-tint-hover);
+    color: var(--color-accent-700);
   }
 
   &:active {
-    background: color-mix(in srgb, var(--color-accent) 18%, transparent);
+    background: var(--color-accent-tint-active);
+    color: var(--color-accent-800);
   }
 }
 
 /* Formulaires */
 .field > label {
   display: block;
-  margin-bottom: 5px;
-  color: color-mix(in srgb, var(--color-text) 70%, transparent);
-  font-size: 12px;
+  margin-bottom: var(--spacing-2xs);
+  color: var(--color-text-muted);
+  font-size: var(--text-xs);
 }
 
 .input {
   width: 100%;
-  min-height: 36px;
-  padding: 6px 10px;
-  border: 1px solid var(--color-divider);
-  border-radius: var(--radius-md);
+  min-height: var(--size-control-m);
+  padding: var(--spacing-xs) var(--spacing-s);
+  border: var(--border-width-s) solid var(--color-border);
+  border-radius: var(--radius-m);
   background: var(--color-surface);
   color: var(--color-text);
   font: inherit;
-  font-size: 14px;
+  font-size: var(--text-s);
   caret-color: var(--color-accent);
 
   &:hover {
-    border-color: color-mix(in srgb, var(--color-text) 45%, transparent);
+    border-color: var(--color-border-hover);
   }
 
   &:focus-visible {
@@ -208,20 +264,20 @@ img {
 .seg {
   display: inline-flex;
   overflow: hidden;
-  border: 1px solid var(--color-divider);
-  border-radius: var(--radius-md);
+  border: var(--border-width-s) solid var(--color-border);
+  border-radius: var(--radius-m);
 
   & button {
-    padding: 7px 14px;
+    padding: var(--spacing-xs) var(--spacing-m);
     border: 0;
     background: transparent;
     color: var(--color-text);
     font: inherit;
-    font-size: 13px;
+    font-size: var(--text-s);
     cursor: pointer;
 
     &:not([aria-pressed="true"]):hover {
-      background: color-mix(in srgb, var(--color-text) 7%, transparent);
+      background: var(--color-tint-hover);
     }
 
     &[aria-pressed="true"] {
@@ -230,12 +286,12 @@ img {
     }
 
     &:focus-visible {
-      outline-offset: -2px;
+      outline-offset: calc(var(--border-width-m) * -1);
     }
   }
 
   & button + button {
-    border-left: 1px solid var(--color-divider);
+    border-left: var(--border-width-s) solid var(--color-divider);
   }
 }
 
@@ -243,10 +299,10 @@ img {
 .badge {
   display: inline-flex;
   align-items: center;
-  padding: 3px 10px;
-  border-radius: calc(var(--radius-md) * 0.75);
-  font-size: 11px;
-  letter-spacing: 0.02em;
+  padding: var(--spacing-2xs) var(--spacing-s);
+  border-radius: var(--radius-m);
+  font-size: var(--text-xs);
+  letter-spacing: var(--letter-spacing-wide);
 }
 
 .badge-neutral {

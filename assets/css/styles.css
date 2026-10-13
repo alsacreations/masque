@@ -35,19 +35,19 @@ code {
 .site-header {
   display: grid;
   grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
-  gap: var(--space-8);
+  gap: var(--spacing-2xl);
   align-items: end;
-  padding: 28px var(--space-8) 22px;
-  border-bottom: 2px solid var(--color-divider);
+  padding: var(--spacing-xl) var(--spacing-2xl);
+  border-bottom: var(--border-width-m) solid var(--color-divider);
 
   & h1 {
     display: flex;
     align-items: center;
-    gap: var(--space-4);
+    gap: var(--spacing-l);
     margin: 0;
-    font-size: 44px;
-    line-height: 0.9;
-    letter-spacing: -0.04em;
+    font-size: var(--text-2xl);
+    line-height: var(--line-height-s);
+    letter-spacing: var(--letter-spacing-tighter);
   }
 
   & p {
@@ -56,40 +56,41 @@ code {
 
   @media (width < 48rem) {
     grid-template-columns: minmax(0, 1fr);
-    gap: var(--space-4);
-    padding-inline: var(--space-4);
+    gap: var(--spacing-l);
+    padding-inline: var(--spacing-l);
   }
 }
 
 .site-tagline {
   display: flex;
   flex-direction: column;
-  gap: var(--space-1);
-  padding-bottom: var(--space-1);
-  font-size: 13px;
+  gap: var(--spacing-2xs);
+  padding-bottom: var(--spacing-2xs);
 
   & strong {
-    font-size: 17px;
-    font-weight: 600;
+    font-size: var(--text-l);
+    font-weight: var(--font-weight-semibold);
   }
 }
 
 /* Logo : masque SVG rempli d'un dégradé animé */
 .logo {
+  --logo-size: 3.25rem;
+
   display: block;
   flex: none;
-  width: 52px;
-  height: 52px;
+  width: var(--logo-size);
+  height: var(--logo-size);
   background-image: linear-gradient(
     90deg,
     var(--color-accent-500),
-    rgb(255 0 162),
+    var(--color-magenta),
     var(--color-accent-700)
   );
   background-repeat: no-repeat;
   background-size: 200% 200%;
   mask: url("../img/mask.svg") no-repeat center / contain;
-  animation: mask-gradient-shift 6s linear infinite;
+  animation: mask-gradient-shift var(--duration-loop) linear infinite;
 
   @media (prefers-reduced-motion: reduce) {
     animation: none;
@@ -111,62 +112,64 @@ code {
  * Étapes (sections numérotées)
  * -------------------- */
 main {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  counter-reset: step;
-}
-
-.step {
   display: grid;
-  grid-template-columns: 168px minmax(0, 1fr);
-  border-bottom: 2px solid var(--color-divider);
-  counter-increment: step;
-
-  &:last-child {
-    border-bottom: 0;
-  }
+  flex: 1;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-content: start;
+  counter-reset: step;
 
   @media (width < 48rem) {
     grid-template-columns: minmax(0, 1fr);
   }
 }
 
+.step {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: subgrid;
+  border-bottom: var(--border-width-m) solid var(--color-divider);
+  counter-increment: step;
+
+  &:last-child {
+    border-bottom: 0;
+  }
+}
+
 .step-title {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: var(--spacing-3xs);
   margin: 0;
-  padding: var(--space-6) 0 var(--space-6) var(--space-8);
-  font-size: 13px;
-  letter-spacing: 0.08em;
+  padding: var(--spacing-xl) var(--spacing-2xl);
+  font-size: var(--text-s);
+  letter-spacing: var(--letter-spacing-wider);
   text-transform: uppercase;
 
   &::before {
     content: counter(step, decimal-leading-zero);
     color: var(--color-accent);
-    font-size: 32px;
-    line-height: 1;
+    font-size: var(--text-xl);
+    line-height: var(--line-height-s);
     letter-spacing: normal;
   }
 
   @media (width < 48rem) {
     flex-direction: row;
     align-items: baseline;
-    gap: var(--space-3);
-    padding: var(--space-4) var(--space-4) 0;
+    gap: var(--spacing-m);
+    padding: var(--spacing-l) var(--spacing-l) 0;
   }
 }
 
 .step-body {
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  padding: var(--space-6) var(--space-8);
-  border-left: 2px solid var(--color-divider);
+  gap: var(--spacing-m);
+  padding: var(--spacing-xl) var(--spacing-2xl);
+  border-left: var(--border-width-m) solid var(--color-divider);
 
   @media (width < 48rem) {
-    padding: var(--space-4);
+    padding: var(--spacing-l);
     border-left: 0;
   }
 }
@@ -176,37 +179,36 @@ main {
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: var(--space-3) var(--space-4);
+  gap: var(--spacing-m) var(--spacing-l);
 
   & p {
     margin: 0;
-    font-size: 13px;
   }
 }
 
 .toolbar-group {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: var(--spacing-s);
 }
 
 .overline {
-  font-size: 11px;
-  letter-spacing: 0.08em;
+  font-size: var(--text-xs);
+  letter-spacing: var(--letter-spacing-wider);
   text-transform: uppercase;
 }
 
 /* ---------------------
- * 01 — Import
+ * 01. Import
  * -------------------- */
 .dropzone {
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: var(--space-1);
-  padding: 26px var(--space-6);
-  border: 2px dashed var(--color-neutral-400);
+  gap: var(--spacing-2xs);
+  padding: var(--spacing-xl);
+  border: var(--border-width-m) dashed var(--color-neutral-400);
   background: var(--color-surface);
   cursor: pointer;
 
@@ -216,8 +218,8 @@ main {
   }
 
   &:has(input:focus-visible) {
-    outline: 2px solid var(--color-accent);
-    outline-offset: 2px;
+    outline: var(--border-width-m) solid var(--color-accent);
+    outline-offset: var(--border-width-m);
   }
 
   &.is-dragover {
@@ -227,12 +229,8 @@ main {
 
   & strong {
     font-family: var(--font-heading);
-    font-size: 19px;
-    font-weight: var(--font-heading-weight);
-  }
-
-  & span {
-    font-size: 13px;
+    font-size: var(--text-l);
+    font-weight: var(--font-weight-extrabold);
   }
 }
 
@@ -240,7 +238,7 @@ main {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--space-2);
+  gap: var(--spacing-s);
   margin: 0;
   padding: 0;
   list-style: none;
@@ -250,7 +248,7 @@ main {
   }
 
   & .badge {
-    gap: 6px;
+    gap: var(--spacing-xs);
   }
 
   & .badge::before {
@@ -261,101 +259,104 @@ main {
 
 .btn-clear {
   align-self: flex-start;
-  font-size: 12px;
+  font-size: var(--text-xs);
 }
 
 /* ---------------------
- * 02 — Aperçu des icônes
+ * 02. Aperçu des icônes
  * -------------------- */
 .icons-preview {
+  --preview-col-min: 7rem;
+  --preview-bg: var(--color-surface);
   --preview-border: var(--color-divider);
   --preview-ink: var(--color-text);
-  --preview-input-border: var(--color-neutral-400);
-  --preview-remove: var(--color-neutral-600);
+  --preview-input-border: var(--color-neutral-600);
+  --preview-remove: var(--color-neutral-700);
 
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(112px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(var(--preview-col-min), 1fr));
   margin: 0;
   padding: 0;
-  border: 1px solid var(--color-divider);
-  background: var(--color-surface);
-  color: var(--preview-ink);
   list-style: none;
 
+  /* Le thème sombre ne s'applique qu'aux icônes (li) via ces variables */
   &[data-theme="dark"] {
+    --preview-bg: var(--color-neutral-900);
     --preview-border: var(--color-neutral-700);
     --preview-ink: var(--color-neutral-200);
     --preview-input-border: var(--color-neutral-600);
     --preview-remove: var(--color-neutral-500);
-
-    background: var(--color-neutral-900);
+    --preview-remove-hover: var(--color-accent-400);
   }
 }
 
 .preview-empty {
   grid-column: 1 / -1;
   margin: 0;
-  padding: 26px var(--space-4);
-  font-size: 13px;
+  padding: var(--spacing-xl) var(--spacing-l);
 }
 
 .preview-item {
+  --preview-item-min-height: 6rem;
+
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-end;
-  gap: 10px;
-  min-height: 96px;
-  padding: var(--space-4) var(--space-2) 10px;
-  outline: 1px solid var(--preview-border);
-  outline-offset: -0.5px;
-  animation: pop 0.2s ease both;
+  gap: var(--spacing-s);
+  min-height: var(--preview-item-min-height);
+  padding: var(--spacing-l) var(--spacing-s) var(--spacing-s);
+  outline: var(--border-width-s) solid var(--preview-border);
+  outline-offset: calc(var(--border-width-s) / -2);
+  background: var(--preview-bg);
+  color: var(--preview-ink);
+  animation: pop var(--duration-fast) ease both;
 
   @media (prefers-reduced-motion: reduce) {
     animation: none;
   }
 
   & [data-icon] {
-    --mask-icon-size: clamp(28px, var(--preview-size, 1em), 48px);
+    --mask-icon-size: clamp(var(--size-icon-l), var(--preview-size, 1em), var(--size-icon-xl));
   }
 
   & input {
     width: 100%;
-    padding: 2px 4px;
+    padding: var(--spacing-3xs) var(--spacing-2xs);
     border: 0;
-    border-bottom: 1px dashed var(--preview-input-border);
+    border-bottom: var(--border-width-s) dashed var(--preview-input-border);
     background: transparent;
     color: inherit;
     font-family: var(--font-mono);
-    font-size: 12px;
+    font-size: var(--text-xs);
     text-align: center;
   }
 }
 
 .preview-remove {
   position: absolute;
-  top: 2px;
-  right: 2px;
-  width: 22px;
-  height: 22px;
+  top: var(--spacing-3xs);
+  right: var(--spacing-3xs);
+  width: var(--size-control-s);
+  height: var(--size-control-s);
   padding: 0;
   border: 0;
   background: transparent;
   color: var(--preview-remove);
-  font-size: 15px;
-  line-height: 1;
+  font-size: var(--text-m);
+  line-height: var(--line-height-s);
   cursor: pointer;
 
   &:hover {
-    color: var(--color-accent);
+    color: var(--preview-remove-hover, var(--color-accent));
   }
 }
 
 @keyframes pop {
   from {
     opacity: 0;
-    transform: translateY(6px);
+    transform: translateY(var(--spacing-xs));
   }
 
   to {
@@ -365,25 +366,27 @@ main {
 }
 
 /* ---------------------
- * 03 — Personnalisation
+ * 03. Personnalisation
  * -------------------- */
 .settings {
+  --settings-col-min: 12rem;
+
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-  gap: var(--space-6);
+  grid-template-columns: repeat(auto-fit, minmax(var(--settings-col-min), 1fr));
+  gap: var(--spacing-xl);
 }
 
 .field-row {
   display: flex;
   align-items: stretch;
-  gap: 6px;
+  gap: var(--spacing-xs);
 
   & input[type="color"] {
     flex: none;
-    width: 36px;
-    height: 36px;
-    padding: 2px;
-    border: 1px solid var(--color-divider);
+    width: var(--size-control-m);
+    height: var(--size-control-m);
+    padding: var(--spacing-3xs);
+    border: var(--border-width-s) solid var(--color-border);
     background: var(--color-surface);
     cursor: pointer;
   }
@@ -392,17 +395,17 @@ main {
 .presets {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
-  margin-top: var(--space-2);
+  gap: var(--spacing-xs);
+  margin-top: var(--spacing-s);
 }
 
 .preset {
-  padding: 3px 9px;
-  border: 1px solid var(--color-divider);
+  padding: var(--spacing-2xs) var(--spacing-s);
+  border: var(--border-width-s) solid var(--color-border);
   background: transparent;
   color: var(--color-text);
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: var(--text-xs);
   cursor: pointer;
 
   &[aria-pressed="true"] {
@@ -413,54 +416,59 @@ main {
 }
 
 .swatch {
-  width: 22px;
-  height: 22px;
+  width: var(--size-control-s);
+  height: var(--size-control-s);
   padding: 0;
-  border: 1px solid var(--color-divider);
+  border: var(--border-width-s) solid var(--color-border);
   background: var(--swatch);
   cursor: pointer;
 
   &[data-value="currentColor"] {
     background: repeating-linear-gradient(
       45deg,
-      var(--color-neutral-300) 0 4px,
-      var(--color-neutral-100) 4px 8px
+      var(--color-neutral-300) 0 var(--spacing-2xs),
+      var(--color-neutral-100) var(--spacing-2xs) var(--spacing-s)
     );
   }
 
   &[aria-pressed="true"] {
     border-color: var(--color-accent);
-    outline: 2px solid var(--color-accent);
-    outline-offset: 1px;
+    outline: var(--border-width-m) solid var(--color-accent);
+    outline-offset: var(--border-width-s);
   }
 }
 
 /* ---------------------
- * 04 — En contexte
+ * 04. En contexte
  * -------------------- */
 .context {
   flex-flow: row wrap;
   align-items: flex-start;
-  gap: 28px;
+  gap: var(--spacing-xl);
+
+  & > p {
+    flex-basis: 100%;
+    margin: 0;
+  }
 
   & .btn {
-    gap: 10px;
+    gap: var(--spacing-s);
   }
 
   & ul {
     display: flex;
     flex-direction: column;
-    gap: var(--space-2);
+    gap: var(--spacing-s);
     margin: 0;
     padding: 0;
-    font-size: 14px;
+    font-size: var(--text-s);
     list-style: none;
   }
 
   & li {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: var(--spacing-s);
     color: var(--color-accent);
   }
 
@@ -472,35 +480,35 @@ main {
 .context-link {
   display: inline-flex;
   align-items: center;
-  gap: var(--space-2);
-  font-size: 14px;
+  gap: var(--spacing-s);
+  font-size: var(--text-s);
 }
 
 /* Icônes d'aperçu : taille fixe, couleur héritée du contexte */
 .context [data-icon] {
-  --mask-icon-size: 18px;
+  --mask-icon-size: var(--size-icon-m);
   --mask-icon-color: currentColor;
   --mask-icon-color-hover: currentColor;
 }
 
 .context li [data-icon] {
-  --mask-icon-size: 16px;
+  --mask-icon-size: var(--size-icon-s);
 }
 
 /* ---------------------
- * 05 — Code
+ * 05. Code
  * -------------------- */
 .code-block {
   margin: 0;
   overflow-x: auto;
-  border: 1px solid var(--color-divider);
-  font-size: 13px;
-  line-height: 1.6;
+  border: var(--border-width-s) solid var(--color-divider);
+  font-size: var(--text-s);
+  line-height: var(--line-height-l);
 
   &[class*="language-"] {
     margin: 0;
-    padding: 18px 20px;
-    border-radius: 0;
+    padding: var(--spacing-l) var(--spacing-xl);
+    border-radius: var(--radius-m);
     background: var(--color-neutral-900);
   }
 
@@ -514,26 +522,28 @@ main {
  * Pied de page
  * -------------------- */
 .site-footer {
+  --footer-logo-width: 8.125rem;
+
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: 18px;
-  padding: 20px var(--space-8);
-  border-top: 2px solid var(--color-divider);
+  gap: var(--spacing-l);
+  padding: var(--spacing-xl) var(--spacing-2xl);
+  border-top: var(--border-width-m) solid var(--color-divider);
   background: var(--color-surface);
 
   & p {
     margin: 0;
-    font-size: 13px;
+    font-size: var(--text-s);
   }
 
   & img {
-    width: 130px;
+    width: var(--footer-logo-width);
   }
 
   @media (width < 48rem) {
-    padding-inline: var(--space-4);
+    padding-inline: var(--spacing-l);
   }
 }
 
@@ -541,7 +551,7 @@ main {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 14px;
+  gap: var(--spacing-m);
 }
 
 .logo-link {
