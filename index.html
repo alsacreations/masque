@@ -9,121 +9,140 @@
   <meta name="description"
     content="Masque est un outil qui permet de créer des icônes CSS à partir de fichiers SVG externes." />
   <title>Masque</title>
+  <link rel="preload" href="assets/fonts/Archivo-VariableFont-opti.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="assets/css/app.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" />
 </head>
 
-<body data-layout="boxed">
-  <header>
-    <h1>masque <span data-icon="mask"></span></h1>
-    <p class="my-0">Générateur de masques CSS pour icônes SVG.</p>
-    <p class="discrete my-0">
-      Technique adaptée aux fichiers SVG externes non modifiables
-      <a href="https://www.alsacreations.com/tuto/lire/1944-appliquer-des-styles-css-a-svg.html">Documentation</a>.
-    </p>
-  </header>
-  <main data-layout="stack" data-gap="xl">
-    <section data-layout="duo" data-split="4-1" data-gap="l" data-align="start">
-      <!-- Upload -->
-      <div id="upload-section" data-layout="stack" data-gap="m">
-        <h2 class="visually-hidden">1. Télécharger vos fichiers SVG</h2>
-        <div id="dropzone" class="dropzone" data-layout="stack" data-gap="s" role="button" tabindex="0"
-          aria-describedby="drop-hint">
-          <label for="file-input" class="primary-label">
-            <span class="visually-hidden">Importer des fichiers SVG</span>
+<body>
+  <div class="page">
+    <header class="site-header">
+      <h1><span class="logo" aria-hidden="true"></span>masque</h1>
+      <div class="site-tagline">
+        <p><strong>Générateur de masques CSS pour icônes SVG.</strong></p>
+        <p class="text-muted">
+          Technique adaptée aux fichiers SVG externes non modifiables
+          <a href="https://www.alsacreations.com/tuto/lire/1944-appliquer-des-styles-css-a-svg.html">Documentation</a>.
+        </p>
+      </div>
+    </header>
+
+    <main>
+      <!-- Import -->
+      <section class="step" aria-labelledby="step-import">
+        <h2 id="step-import" class="step-title">Importer</h2>
+        <div class="step-body">
+          <label for="file-input" id="dropzone" class="dropzone">
+            <input type="file" id="file-input" class="visually-hidden" multiple accept=".svg,image/svg+xml" />
+            <strong>Déposez vos fichiers SVG</strong>
+            <span class="text-muted">ou cliquez pour parcourir — les fichiers restent en local</span>
           </label>
-          <input type="file" id="file-input" class="visually-hidden" multiple accept=".svg" />
-          <p id="drop-hint">
-            <strong>Importez des fichiers SVG</strong>
-            <span class="discrete">ou glisser-déposer</span>
-          </p>
+          <ul id="file-list" class="file-list" aria-label="Fichiers importés"></ul>
+          <button type="button" id="clear-icons" class="btn btn-ghost btn-clear" hidden>Tout effacer</button>
         </div>
-        <div class="file-list-container">
-          <div id="file-list" class="file-list" data-layout="stack" data-gap="xs"></div>
-          <button id="clear-icons" class="btn-clear" hidden>
-            Tout effacer
-          </button>
-        </div>
+      </section>
 
-        <!-- Preview -->
-        <div id="preview-section" data-layout="stack" data-gap="m">
-          <div id="icons-preview" class="icons-preview" data-layout="autogrid" data-gap="m">
-            <p class="discrete">Les icônes apparaîtront ici.</p>
+      <!-- Aperçu -->
+      <section class="step" aria-labelledby="step-icons">
+        <h2 id="step-icons" class="step-title">Icônes</h2>
+        <div class="step-body">
+          <div class="step-toolbar">
+            <p class="text-muted">
+              Le nom de chaque icône devient sa valeur <code>data-icon</code> — modifiable ci-dessous.
+            </p>
+            <div class="toolbar-group" role="group" aria-labelledby="preview-bg-label">
+              <span id="preview-bg-label" class="overline text-muted">Fond</span>
+              <div class="seg">
+                <button type="button" data-preview-theme="light" aria-pressed="true">Clair</button>
+                <button type="button" data-preview-theme="dark" aria-pressed="false">Sombre</button>
+              </div>
+            </div>
           </div>
+          <ul id="icons-preview" class="icons-preview" aria-label="Aperçu des icônes"></ul>
         </div>
-      </div>
+      </section>
 
-      <!-- Settings -->
-      <div id="settings-section" data-layout="stack" data-gap="m">
-        <h2 class="visually-hidden">2. Personnaliser les icônes</h2>
-        <div class="settings-grid" data-layout="stack" data-gap="s">
-          <div data-layout="stack" data-gap="xs">
+      <!-- Personnalisation -->
+      <section class="step" aria-labelledby="step-settings">
+        <h2 id="step-settings" class="step-title">Personnaliser</h2>
+        <div class="step-body settings">
+          <div class="field">
             <label for="icon-size">Taille</label>
-            <input type="text" id="icon-size" value="1em" placeholder="Ex. 1rem, 24px" />
+            <input type="text" id="icon-size" class="input" value="1em" placeholder="Ex. 1rem, 24px" />
+            <div class="presets" role="group" aria-label="Tailles prédéfinies" data-presets="size"></div>
           </div>
-          <div data-layout="stack" data-gap="xs">
+          <div class="field">
             <label for="icon-color">Couleur</label>
-            <input type="text" id="icon-color" value="currentColor" placeholder="Ex. red, #f00" />
+            <div class="field-row">
+              <input type="color" name="icon-color-picker" data-color-for="icon-color" aria-label="Choisir la couleur" />
+              <input type="text" id="icon-color" class="input" value="currentColor" placeholder="Ex. red, #f00" />
+            </div>
+            <div class="presets" role="group" aria-label="Couleurs prédéfinies" data-presets="icon-color"></div>
           </div>
-          <div data-layout="stack" data-gap="xs">
+          <div class="field">
             <label for="icon-color-hover">Couleur (hover)</label>
-            <input type="text" id="icon-color-hover" value="currentColor" />
+            <div class="field-row">
+              <input type="color" name="icon-color-hover-picker" data-color-for="icon-color-hover" aria-label="Choisir la couleur au survol" />
+              <input type="text" id="icon-color-hover" class="input" value="currentColor"
+                placeholder="Ex. red, #f00" />
+            </div>
+            <div class="presets" role="group" aria-label="Couleurs prédéfinies (hover)"
+              data-presets="icon-color-hover"></div>
           </div>
-          <div data-layout="stack" data-gap="xs">
+          <div class="field">
             <label for="icon-color-dark">Couleur (dark mode)</label>
-            <input type="text" id="icon-color-dark" value="currentColor" />
+            <div class="field-row">
+              <input type="color" name="icon-color-dark-picker" data-color-for="icon-color-dark" aria-label="Choisir la couleur en mode sombre" />
+              <input type="text" id="icon-color-dark" class="input" value="currentColor"
+                placeholder="Ex. red, #f00" />
+            </div>
+            <div class="presets" role="group" aria-label="Couleurs prédéfinies (dark mode)"
+              data-presets="icon-color-dark"></div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- Result -->
-    <section id="result-section" data-layout="duo" data-align="start" data-gap="m">
-      <h2 class="visually-hidden">4. Code généré</h2>
-      <div data-layout="stack" data-gap="s">
-        <h3>Code CSS</h3>
-        <div class="result-code-container">
-          <button id="copy-css" class="btn-copy">
-            Copier
-          </button>
-          <pre
-            class="language-css"><code id="generated-css" class="language-css">/* Le code CSS apparaîtra ici */</code></pre>
+      <!-- En contexte -->
+      <section id="context-section" class="step" aria-labelledby="step-context" hidden>
+        <h2 id="step-context" class="step-title">En contexte</h2>
+        <div class="step-body context">
+          <button type="button" class="btn btn-primary">Télécharger<span data-context-icon></span></button>
+          <button type="button" class="btn btn-secondary">Action secondaire<span data-context-icon></span></button>
+          <a href="#" class="context-link">Lien avec icône<span data-context-icon></span></a>
+          <ul id="context-list"></ul>
         </div>
-      </div>
-      <div data-layout="stack" data-gap="s">
-        <h3>Code HTML</h3>
-        <div class="result-code-container">
-          <button id="copy-html" class="btn-copy">
-            Copier
-          </button>
-          <pre
-            class="language-html"><code id="generated-html" class="language-html">&lt;!-- Le code HTML apparaîtra ici --&gt;</code></pre>
+      </section>
+
+      <!-- Code -->
+      <section class="step" aria-labelledby="step-code">
+        <h2 id="step-code" class="step-title">Code</h2>
+        <div class="step-body">
+          <div class="step-toolbar">
+            <div class="seg" role="group" aria-label="Langage">
+              <button type="button" data-code-tab="css" aria-pressed="true">CSS</button>
+              <button type="button" data-code-tab="html" aria-pressed="false">HTML</button>
+            </div>
+            <button type="button" id="copy-code" class="btn btn-primary">Copier le CSS</button>
+          </div>
+          <pre class="code-block language-css"><code id="generated-code" class="language-css"></code></pre>
         </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-credits">
+        <p>Masque est un projet <i>fifoo</i> conçu avec ❤️ par</p>
+        <a class="logo-link" href="https://www.alsacreations.fr/">
+          <img src="img/logo-alsacreations.svg" alt="Alsacréations" />
+        </a>
       </div>
-    </section>
-  </main>
+      <a href="https://github.com/alsacreations/masque" class="btn btn-secondary" title="Voir le dépôt sur GitHub">GitHub</a>
+    </footer>
+  </div>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-css.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
   <script type="module" src="assets/js/app.js"></script>
-  <footer class="footer" role="contentinfo">
-    <div class="footer-alsa" data-layout="boxed">
-      <p>Masque est un projet <i>fifoo</i> conçu avec ❤️ par</p>
-      <a class="logo-link" href="https://www.alsacreations.fr/">
-        <img src="img/logo-alsacreations.svg" alt="Alsacréations" />
-      </a>
-      <p>
-        <a href="https://github.com/alsacreations/masque" class="btn btn-github" title="voir le repo sur GitHub">
-          GitHub&nbsp;
-          <svg width="20" height="20" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path fill-rule="evenodd" clip-rule="evenodd"
-              d="M8 0C3.58 0 0 3.58 0 8C0 11.54 2.29 14.53 5.47 15.59C5.87 15.66 6.02 15.42 6.02 15.21C6.02 15.02 6.01 14.39 6.01 13.72C4 14.09 3.48 13.23 3.32 12.78C3.23 12.55 2.84 11.84 2.5 11.65C2.22 11.5 1.82 11.13 2.49 11.12C3.12 11.11 3.57 11.7 3.72 11.94C4.44 13.15 5.59 12.81 6.05 12.6C6.12 12.08 6.33 11.73 6.56 11.53C4.78 11.33 2.92 10.64 2.92 7.58C2.92 6.71 3.23 5.99 3.74 5.43C3.66 5.23 3.38 4.41 3.82 3.31C3.82 3.31 4.49 3.1 6.02 4.13C6.66 3.95 7.34 3.86 8.02 3.86C8.7 3.86 9.38 3.95 10.02 4.13C11.55 3.09 12.22 3.31 12.22 3.31C12.66 4.41 12.38 5.23 12.3 5.43C12.81 5.99 13.12 6.7 13.12 7.58C13.12 10.65 11.25 11.33 9.47 11.53C9.76 11.78 10.01 12.26 10.01 13.01C10.01 14.08 10 14.94 10 15.21C10 15.42 10.15 15.67 10.55 15.59C13.71 14.53 16 11.53 16 8C16 3.58 12.42 0 8 0Z"
-              transform="scale(64)" fill="#ffff"></path>
-          </svg>
-        </a>
-      </p>
-    </div>
-  </footer>
 </body>
 
 </html>

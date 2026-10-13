@@ -3,20 +3,17 @@
 /* L'ordre des layers définit la priorité des styles */
 
 /* Chaque layer écrase le précédent si conflit */
-@layer config, base, components, utilities;
+@layer vendor, config, base, components;
+
+/* Vendor : thème Prism (coloration syntaxique) */
+@import url("https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css")
+layer(vendor);
 
 /* Config */
 @import "reset.css" layer(config);
-@import "theme.css" layer(config);
-@import "theme-tokens.css" layer(config);
-@import "layouts.css" layer(config);
-@import "natives.css" layer(config);
 
-/* Base */
-@import "styles.css" layer(base);
+/* Base : design system « Modernist » */
+@import "ds.css" layer(base);
 
-/* Animations */
-
-/* Utilities */
-@import "anime.css" layer(utilities);
-@import "utilities.css" layer(utilities);
+/* Composants de la page */
+@import "styles.css" layer(components);
